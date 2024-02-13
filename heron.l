@@ -3,6 +3,7 @@
  * K = sqrt(s * (s - a) * (s - b) * (s - c) * (s - d))
  */
 #include <stdio.h>
+#include "tokens.h"
 %}
 
 digit       [0-9]
@@ -12,22 +13,25 @@ whitesp     [ \t\n]
 
 %%
 {whitesp}+  ; // ignore whitespace
-{number}    { printf("number: %s\n", yytext); }
-{operator}  { printf("operator: %s\n", yytext); }
-"("         { printf("left paren\n"); }
-")"         { printf("right paren\n"); }
-"K"         { printf("variable: K\n"); }
-"s"         { printf("variable: s\n"); }
-"a"         { printf("variable: a\n"); }
-"b"         { printf("variable: b\n"); }
-"c"         { printf("variable: c\n"); }
-"d"         { printf("variable: d\n"); }
-"sqrt"      { printf("fn: square root\n"); }
-.           { fprintf(stderr, "unknown char: %s\n", yytext); }
+{number}    { printf("number: %s\n", yytext); return NUMBER; }
+{operator}  { printf("operator: %s\n", yytext); return OPERATOR; }
+"("         { printf("left paren\n"); return LPAREN; }
+")"         { printf("right paren\n"); return RPAREN; }
+"K"         { printf("variable: K\n"); return VARIABLE; }
+"s"         { printf("variable: s\n"); return VARIABLE; }
+"a"         { printf("variable: a\n"); return VARIABLE; }
+"b"         { printf("variable: b\n"); return VARIABLE; }
+"c"         { printf("variable: c\n"); return VARIABLE; }
+"d"         { printf("variable: d\n"); return VARIABLE; }
+"sqrt"      { printf("fn: square root\n"); return FUNC; }
+.           { fprintf(stderr, "unknown char: %s\n", yytext); return UNKNOWN; }
 %%
     
 int main()
 {
-    yylex();
+    // Parse the incoming stream of characters. Abort when an unknown character
+    // is encountered.
+    int cur_token = 0;
+    while ((cur_token = yylex()) != UNKNOWN && cur_token != 0); // 0 is returned for EOF
     return 0;
 }
