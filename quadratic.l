@@ -3,8 +3,6 @@
  * x = (-b ± sqrt(b ^ 2 - 4 * a * c) / (2 * a))
  */
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 %}
 
 digit       [0-9]

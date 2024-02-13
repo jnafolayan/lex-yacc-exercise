@@ -3,14 +3,12 @@
  * K = sqrt(s * (s - a) * (s - b) * (s - c) * (s - d))
  */
 #include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
 %}
 
 digit       [0-9]
 number      {digit}+(\.{digit}+)?
 operator    [\-\*=]
-whitesp     [ \t\n]        
+whitesp     [ \t\n]
 
 %%
 {whitesp}+  ; // ignore whitespace
