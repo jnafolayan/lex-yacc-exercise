@@ -1,9 +1,9 @@
 # Quadratic
-compile-quadratic-lexer: quadratic.l 
+compile-quadratic-lexer: quadratic.l quadratic.y
+	yacc -d quadratic.y -o quadratic.tab.h
 	lex -o quadratic.yy.c quadratic.l
-compile-quadratic-parser: quadratic.l quadratic.y
+compile-quadratic: compile-quadratic-lexer
 	yacc -o quadratic.tab.c quadratic.y
-compile-quadratic: compile-quadratic-lexer compile-quadratic-parser
 
 build-quadratic-lexer: compile-quadratic-lexer
 	gcc quadratic.yy.c -ll -o quadratic-l.a
@@ -12,10 +12,10 @@ build-quadratic: compile-quadratic
 
 # Heron
 compile-heron-lexer: heron.l heron.y
+	yacc -d heron.y -o heron.tab.h
 	lex -o heron.yy.c heron.l
-compile-heron-parser: heron.l heron.y
+compile-heron: compile-heron-lexer
 	yacc -o heron.tab.c heron.y
-compile-heron: compile-heron-lexer compile-heron-parser
 
 build-heron-lexer: compile-heron-lexer
 	gcc heron.yy.c -ll -o heron-l.a
@@ -25,5 +25,7 @@ build-heron: compile-heron
 # 
 build-all: build-quadratic build-heron
 clean:
-	rm *.yy.c
-	rm *.a
+	rm -f *.yy.c
+	rm -f *.a
+	rm -f *.tab.h
+	rm -f *.tab.c

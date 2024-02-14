@@ -23,10 +23,15 @@ whitesp     [ \t\n]
 "b"         { printf("variable: b\n"); return VARIABLE; }
 "c"         { printf("variable: c\n"); return VARIABLE; }
 "d"         { printf("variable: d\n"); return VARIABLE; }
-"sqrt"      { printf("fn: square root\n"); return FUNC; }
+"sqrt"      { printf("fn: square root\n"); return SQRT; }
 .           { fprintf(stderr, "unknown char: %s\n", yytext); return UNKNOWN; }
 %%
     
+int yywrap()
+{
+    return 1;
+}
+
 int main()
 {
     // Parse the incoming stream of characters. Abort when an unknown character
