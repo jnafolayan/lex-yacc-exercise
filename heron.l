@@ -8,7 +8,7 @@
 
 digit       [0-9]
 number      {digit}+(\.{digit}+)?
-operator    [\-\*=]
+operator    [-\*=]
 whitesp     [ \t\n]
 
 %%
@@ -26,6 +26,11 @@ whitesp     [ \t\n]
 "sqrt"      { printf("fn: square root\n"); return FUNC; }
 .           { fprintf(stderr, "unknown char: %s\n", yytext); return UNKNOWN; }
 %%
+
+int yywrap()
+{
+    return 1;
+}
     
 int main()
 {

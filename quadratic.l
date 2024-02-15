@@ -25,6 +25,11 @@ whitesp     [ \t\n]
 .           { fprintf(stderr, "unknown char: %s\n", yytext); return (UNKNOWN); }
 %%
 
+int yywrap()
+{
+    return 1;
+}
+
 int main()
 {
     // Parse the incoming stream of characters. Abort when an unknown character
