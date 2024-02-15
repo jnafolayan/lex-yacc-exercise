@@ -66,40 +66,38 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     VARIABLE_X = 258,
-     VARIABLE_A = 259,
-     VARIABLE_B = 260,
-     VARIABLE_C = 261,
-     SIGNUM = 262,
-     LPAREN = 263,
-     RPAREN = 264,
-     ASSIGNMENT_OP = 265,
-     SQRT = 266,
-     NUMBER = 267,
-     UMINUS = 268
+     VARIABLE_K = 258,
+     VARIABLE_S = 259,
+     VARIABLE_A = 260,
+     VARIABLE_B = 261,
+     VARIABLE_C = 262,
+     VARIABLE_D = 263,
+     LPAREN = 264,
+     RPAREN = 265,
+     ASSIGNMENT_OP = 266,
+     SQRT = 267
    };
 #endif
 /* Tokens.  */
-#define VARIABLE_X 258
-#define VARIABLE_A 259
-#define VARIABLE_B 260
-#define VARIABLE_C 261
-#define SIGNUM 262
-#define LPAREN 263
-#define RPAREN 264
-#define ASSIGNMENT_OP 265
-#define SQRT 266
-#define NUMBER 267
-#define UMINUS 268
+#define VARIABLE_K 258
+#define VARIABLE_S 259
+#define VARIABLE_A 260
+#define VARIABLE_B 261
+#define VARIABLE_C 262
+#define VARIABLE_D 263
+#define LPAREN 264
+#define RPAREN 265
+#define ASSIGNMENT_OP 266
+#define SQRT 267
 
 
 
 
 /* Copy the first part of user declarations.  */
-#line 1 "quadratic.y"
+#line 1 "heron.y"
 
 /* This parser parses a quadratic formula of the form:
- * x = (-b ± sqrt(b ^ 2 - 4 * a * c)) / (2 * a)
+ * K = sqrt(s * (s - a) * (s - b) * (s - c) * (s - d))
  */
 #include <stdio.h>
 #include <string.h>
@@ -108,10 +106,7 @@
 extern int yylex();
 void yyerror(char*);
 
-void assert_token(int, int);
-
-int a, b, c;
-double x1, x2;
+double s, a, b, c, d;
 
 
 /* Enabling traces.  */
@@ -133,7 +128,14 @@ double x1, x2;
 #endif
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 15 "heron.y"
+{
+    double number;
+}
+/* Line 193 of yacc.c.  */
+#line 138 "heron.tab.c"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
@@ -145,7 +147,7 @@ typedef int YYSTYPE;
 
 
 /* Line 216 of yacc.c.  */
-#line 149 "quadratic.tab.c"
+#line 151 "heron.tab.c"
 
 #ifdef short
 # undef short
@@ -360,20 +362,20 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   30
+#define YYLAST   33
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  19
+#define YYNTOKENS  15
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  7
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  7
+#define YYNRULES  8
 /* YYNRULES -- Number of states.  */
-#define YYNSTATES  33
+#define YYNSTATES  39
 
 /* YYTRANSLATE(YYLEX) -- Bison symbol number corresponding to YYLEX.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   268
+#define YYMAXUTOK   267
 
 #define YYTRANSLATE(YYX)						\
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -385,12 +387,12 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,    15,    13,     2,    14,     2,    16,     2,     2,
+       2,     2,    14,     2,     2,    13,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,    18,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -407,7 +409,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
-       5,     6,     7,     8,     9,    10,    11,    12,    17
+       5,     6,     7,     8,     9,    10,    11,    12
 };
 
 #if YYDEBUG
@@ -415,22 +417,23 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     7,    11,    18,    23,    33
+       0,     0,     3,     7,    12,    22,    28,    34,    40
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
-      20,     0,    -1,     3,    10,    21,    -1,    22,    16,    25,
-      -1,     8,    14,     5,     7,    23,     9,    -1,    11,     8,
-      24,     9,    -1,     5,    18,    12,    14,    12,    15,     4,
-      15,     6,    -1,     8,    12,    15,     4,     9,    -1
+      16,     0,    -1,     3,    11,    17,    -1,    12,     9,    18,
+      10,    -1,     4,    14,    19,    14,    20,    14,    21,    14,
+      22,    -1,     9,     4,    13,     5,    10,    -1,     9,     4,
+      13,     6,    10,    -1,     9,     4,    13,     7,    10,    -1,
+       9,     4,    13,     8,    10,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    28,    28,    30,    32,    34,    36,    42
+       0,    30,    30,    32,    34,    36,    38,    40,    42
 };
 #endif
 
@@ -439,10 +442,10 @@ static const yytype_uint8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "VARIABLE_X", "VARIABLE_A", "VARIABLE_B",
-  "VARIABLE_C", "SIGNUM", "LPAREN", "RPAREN", "ASSIGNMENT_OP", "SQRT",
-  "NUMBER", "'+'", "'-'", "'*'", "'/'", "UMINUS", "'^'", "$accept", "stmt",
-  "expr", "numer", "root", "root_arg", "denom", 0
+  "$end", "error", "$undefined", "VARIABLE_K", "VARIABLE_S", "VARIABLE_A",
+  "VARIABLE_B", "VARIABLE_C", "VARIABLE_D", "LPAREN", "RPAREN",
+  "ASSIGNMENT_OP", "SQRT", "'-'", "'*'", "$accept", "stmt", "expr",
+  "root_arg", "s_a", "s_b", "s_c", "s_d", 0
 };
 #endif
 
@@ -452,20 +455,20 @@ static const char *const yytname[] =
 static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
-     265,   266,   267,    43,    45,    42,    47,   268,    94
+     265,   266,   267,    45,    42
 };
 # endif
 
 /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    19,    20,    21,    22,    23,    24,    25
+       0,    15,    16,    17,    18,    19,    20,    21,    22
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     3,     3,     6,     4,     9,     5
+       0,     2,     3,     4,     9,     5,     5,     5,     5
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -474,32 +477,32 @@ static const yytype_uint8 yyr2[] =
 static const yytype_uint8 yydefact[] =
 {
        0,     0,     0,     0,     1,     0,     2,     0,     0,     0,
-       0,     0,     3,     0,     0,     0,     0,     0,     0,     4,
-       0,     0,     0,     7,     0,     5,     0,     0,     0,     0,
-       0,     0,     6
+       0,     3,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     5,     0,     0,     0,     0,     0,     0,     6,
+       0,     0,     4,     0,     0,     7,     0,     0,     8
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     6,     7,    16,    22,    12
+      -1,     2,     6,     9,    13,    18,    25,    32
 };
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-#define YYPACT_NINF -12
+#define YYPACT_NINF -11
 static const yytype_int8 yypact[] =
 {
-      -3,    -9,     2,    -5,   -12,   -10,   -12,   -11,     1,    -1,
-       3,    -4,   -12,    -2,     0,     4,     5,     7,     8,   -12,
-       9,     6,    10,   -12,    11,   -12,    12,    13,    14,    16,
-      15,    21,   -12
+      -3,   -10,     2,    -9,   -11,    -5,   -11,     1,    -8,    -2,
+       0,   -11,     3,    -4,    -1,     4,     6,    10,     5,     7,
+       8,     9,   -11,    14,    11,    12,    13,    15,    16,   -11,
+      17,    18,   -11,    19,    20,   -11,    22,    21,   -11
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -12,   -12,   -12,   -12,   -12,   -12,   -12
+     -11,   -11,   -11,   -11,   -11,   -11,   -11,   -11
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]].  What to do in state STATE-NUM.  If
@@ -509,28 +512,28 @@ static const yytype_int8 yypgoto[] =
 #define YYTABLE_NINF -1
 static const yytype_uint8 yytable[] =
 {
-       1,     3,     4,     5,     8,     9,    10,    11,    14,    15,
-      13,    20,    18,    21,    19,    17,     0,     0,    23,    25,
-      30,     0,     0,    26,    24,    28,    27,    32,     0,    29,
-      31
+       1,     3,     4,     5,     7,     8,    10,    14,    11,    12,
+      15,    19,    16,    17,    20,    27,     0,    22,    24,    21,
+      26,    23,    34,    29,    33,    31,    28,     0,    30,    35,
+      37,    38,     0,    36
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,    10,     0,     8,    14,    16,     5,     8,    12,    11,
-       7,     4,     8,     5,     9,    15,    -1,    -1,     9,     9,
-       4,    -1,    -1,    12,    18,    12,    14,     6,    -1,    15,
-      15
+       3,    11,     0,    12,     9,     4,    14,     4,    10,     9,
+      14,     5,    13,     9,     4,     4,    -1,    10,     9,    14,
+       6,    13,     4,    10,     7,     9,    14,    -1,    13,    10,
+       8,    10,    -1,    13
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
    symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    20,    10,     0,     8,    21,    22,    14,    16,
-       5,     8,    25,     7,    12,    11,    23,    15,     8,     9,
-       4,     5,    24,     9,    18,     9,    12,    14,    12,    15,
-       4,    15,     6
+       0,     3,    16,    11,     0,    12,    17,     9,     4,    18,
+      14,    10,     9,    19,     4,    14,    13,     9,    20,     5,
+       4,    14,    10,    13,     9,    21,     6,     4,    14,    10,
+      13,     9,    22,     7,     4,    10,    13,     8,    10
 };
 
 #define yyerrok		(yyerrstatus = 0)
@@ -1345,42 +1348,43 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 28 "quadratic.y"
-    { printf("The roots of the equation are %.2f and %.2f\n", x1, x2); }
+#line 30 "heron.y"
+    { printf("K = %.2lf\n", (yyvsp[(3) - (3)].number)); }
     break;
 
   case 3:
-#line 30 "quadratic.y"
-    { x1 = x1 / (yyvsp[(3) - (3)]); x2 = x2 / (yyvsp[(3) - (3)]); }
+#line 32 "heron.y"
+    { (yyval.number) = sqrt((yyvsp[(3) - (4)].number)); }
     break;
 
   case 4:
-#line 32 "quadratic.y"
-    { x1 = -b + (yyvsp[(5) - (6)]); x2 = -b - (yyvsp[(5) - (6)]); }
+#line 34 "heron.y"
+    { (yyval.number) = s * (yyvsp[(3) - (9)].number) * (yyvsp[(5) - (9)].number) * (yyvsp[(7) - (9)].number) * (yyvsp[(9) - (9)].number); }
     break;
 
   case 5:
-#line 34 "quadratic.y"
-    { (yyval) = sqrt((yyvsp[(3) - (4)])); }
+#line 36 "heron.y"
+    { (yyval.number) = s - a; }
     break;
 
   case 6:
-#line 36 "quadratic.y"
-    {
-                                                                            assert_token((yyvsp[(3) - (9)]), 2);
-                                                                            assert_token((yyvsp[(5) - (9)]), 4);
-                                                                            (yyval) = pow(b, 2) - 4 * a * c;
-                                                                        }
+#line 38 "heron.y"
+    { (yyval.number) = s - b; }
     break;
 
   case 7:
-#line 42 "quadratic.y"
-    { assert_token((yyvsp[(2) - (5)]), 2); (yyval) = 2 * a; }
+#line 40 "heron.y"
+    { (yyval.number) = s - c; }
+    break;
+
+  case 8:
+#line 42 "heron.y"
+    { (yyval.number) = s - d; }
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1384 "quadratic.tab.c"
+#line 1388 "heron.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1594,26 +1598,15 @@ yyreturn:
 }
 
 
-#line 43 "quadratic.y"
+#line 43 "heron.y"
 
-
-void assert_token(int actual, int expected)
-{
-    if (actual != expected) {
-        fprintf(stderr, "expected token %d, got %d\n", expected, actual);
-    }
-}
 
 int main()
 {
-    printf("enter values for a, b and c: ");
-    scanf("%d %d %d", &a, &b, &c);
+    printf("enter values for s, a, b, c and d: ");
+    scanf("%lf %lf %lf %lf %lf", &s, &a, &b, &c, &d);
 
-    yyparse();
-
-    x1 = (-b + sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
-    x2 = (-b - sqrt(pow(b, 2) - 4 * a * c)) / (2 * a);
-    printf("The roots of the equation are %.2f and %.2f\n", x1, x2);
+    yyparse();  
 
     return 0;
 }

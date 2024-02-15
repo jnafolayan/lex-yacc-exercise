@@ -39,37 +39,42 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     VARIABLE_X = 258,
-     VARIABLE_A = 259,
-     VARIABLE_B = 260,
-     VARIABLE_C = 261,
-     SIGNUM = 262,
-     LPAREN = 263,
-     RPAREN = 264,
-     ASSIGNMENT_OP = 265,
-     SQRT = 266,
-     NUMBER = 267,
-     UMINUS = 268
+     VARIABLE_K = 258,
+     VARIABLE_S = 259,
+     VARIABLE_A = 260,
+     VARIABLE_B = 261,
+     VARIABLE_C = 262,
+     VARIABLE_D = 263,
+     LPAREN = 264,
+     RPAREN = 265,
+     ASSIGNMENT_OP = 266,
+     SQRT = 267
    };
 #endif
 /* Tokens.  */
-#define VARIABLE_X 258
-#define VARIABLE_A 259
-#define VARIABLE_B 260
-#define VARIABLE_C 261
-#define SIGNUM 262
-#define LPAREN 263
-#define RPAREN 264
-#define ASSIGNMENT_OP 265
-#define SQRT 266
-#define NUMBER 267
-#define UMINUS 268
+#define VARIABLE_K 258
+#define VARIABLE_S 259
+#define VARIABLE_A 260
+#define VARIABLE_B 261
+#define VARIABLE_C 262
+#define VARIABLE_D 263
+#define LPAREN 264
+#define RPAREN 265
+#define ASSIGNMENT_OP 266
+#define SQRT 267
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 15 "heron.y"
+{
+    double number;
+}
+/* Line 1529 of yacc.c.  */
+#line 77 "heron.tab.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

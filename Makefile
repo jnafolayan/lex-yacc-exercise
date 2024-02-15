@@ -20,7 +20,7 @@ compile-heron: compile-heron-lexer
 build-heron-lexer: compile-heron-lexer
 	gcc heron.yy.c -ll -o heron-l.a
 build-heron: compile-heron
-	gcc heron.yy.c -ll -o heron.a
+	gcc heron.yy.c heron.tab.c -ll -o heron.a
 
 # 
 build-all: build-quadratic build-heron
