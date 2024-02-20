@@ -11,6 +11,9 @@
 #endif
 YYSTYPE yylval;
 
+void d_print(const char*);
+void d_printf(const char*, const char*);
+
 int verbose = 0;
 
 %}
@@ -22,20 +25,31 @@ op          [-^*/]
 
 %%
 {whitesp}+  ; // ignore whitespace
-{number}    { yylval = atoi(yytext); return (NUMBER); }
-{op}        { return *yytext; }
-"±"         { return (SIGNUM); }
-"="         { return (ASSIGNMENT_OP); }
-"("         { return (LPAREN); }
-")"         { return (RPAREN); }
-"x"         { return (VARIABLE_X); }
-"a"         { return (VARIABLE_A); }
-"b"         { return (VARIABLE_B); }
-"c"         { return (VARIABLE_C); }
-"sqrt"      { return (SQRT); }
+{number}    { d_printf("number: %s", yytext); yylval = atoi(yytext); return (NUMBER); }
+{op}        { d_printf("operator %s", yytext); return *yytext; }
+"±"         { d_print("operator: signum"); return (SIGNUM); }
+"="         { d_print("operator: ="); return (ASSIGNMENT_OP); }
+"("         { d_print("left paren\n"); return (LPAREN); }
+")"         { d_print("right paren\n"); return (RPAREN); }
+"x"         { d_print("variable: X\n"); return (VARIABLE_X); }
+"a"         { d_print("variable: a\n"); return (VARIABLE_A); }
+"b"         { d_print("variable: b\n"); return (VARIABLE_B); }
+"c"         { d_print("variable: c\n"); return (VARIABLE_C); }
+"sqrt"      { d_print("fn: square root\n"); return (SQRT); }
 ";"         { return 0; } // end with a semicolon
 .           { fprintf(stderr, "unknown char: %s\n", yytext); return 0; }
 %%
+
+
+void d_print(const char* str)
+{
+    if (verbose == 1) printf("%s", str);
+}
+
+void d_printf(const char* format, const char* ch)
+{
+    if (verbose == 1) printf(format, ch);
+}
 
 int yywrap()
 {
