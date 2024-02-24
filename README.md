@@ -4,9 +4,14 @@
 
 # Installation
 ## Mac users
-If you are on a Mac, you might already have lex and yacc installed along with xcode. To verify, run either command in your terminal. 
+If you are on a Mac, you might already have lex and yacc installed along with xcode. To verify, run either the `lex` or `yacc` command in your terminal. 
 
-If you don't have either, you can install from Homebrew
+Sometimes xcode might not have them installed or Homebrew might not have its necessary dependencies. If that is the case, run the following
+```bash
+xcode-select --install
+```
+
+If you still don't have either, you can install from Homebrew using
 ```bash
 brew install flex bison
 ```
